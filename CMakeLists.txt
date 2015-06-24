@@ -14,7 +14,8 @@ find_package(Boost COMPONENTS ${BOOST_COMPONENTS} REQUIRED)
 include_directories(${Boost_INCLUDE_DIRS})
 #add_definitions(-DBOOST_LOG_DYN_LINK)
 
-aux_source_directory(. SRC_LIST)
-add_executable(${PROJECT_NAME} ${SRC_LIST})
+#aux_source_directory(. SRC_LIST)
+#add_executable(${PROJECT_NAME} ${SRC_LIST})
+add_executable(${PROJECT_NAME} main.cpp logger.cpp)
 target_link_libraries(${PROJECT_NAME} ${Boost_LIBRARIES})
 
