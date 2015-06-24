@@ -16,6 +16,8 @@ int main()
     BOOST_LOG(lg2) << "In log2";
     //boost::log::sources::logger_mt.
 
+    logerror << "EEEEE";
+
     std::cout << "Hello World!" << std::endl;
     return 0;
 }

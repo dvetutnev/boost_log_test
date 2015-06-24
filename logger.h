@@ -25,11 +25,11 @@ namespace logger
 
     BOOST_LOG_GLOBAL_LOGGER(lgr, boost::log::sources::severity_logger_mt<severity_level>)
 
-    #define logtrace    BOOST_LOG_SEV(lgt::get(), trace)
+    #define logtrace    BOOST_LOG_SEV(logger::lgt::get(), trace)
     #define logdebug    BOOST_LOG_SEV(lgr::get(), debug)
     #define loginfo     BOOST_LOG_SEV(lgr::get(), info)
     #define logwarning  BOOST_LOG_SEV(lgr::get(), warning)
-    #define logerror    BOOST_LOG_SEV(lgr::get(), error)
+    #define logerror    BOOST_LOG_SEV(logger::lgr::get(), logger::error)
     #define logcritical BOOST_LOG_SEV(lgr::get(), critical)
 }
 

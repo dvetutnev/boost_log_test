@@ -46,14 +46,21 @@ void logger::init(enum severity_level level)
 }
 */
 
+#include <boost/log/sources/global_logger_storage.hpp>
+#include <boost/log/support/date_time.hpp>
+
 using namespace boost::log;
 
 BOOST_LOG_GLOBAL_LOGGER_INIT(logger::lgr, sources::severity_logger_mt<logger::severity_level>)
 {
     sources::severity_logger_mt<logger::severity_level> lg;
+
     lg.add_attribute("RecordID", attributes::counter<unsigned int>(1));
     lg.add_attribute("TimeStamp", attributes::local_clock());
     lg.add_attribute("Scope", attributes::named_scope());
+
+    core::get()->add_global_attribute("TimeStamp", attributes::local_clock());
+
     typedef sinks::synchronous_sink<sinks::text_ostream_backend> text_sink_t;
 
     // file log
