@@ -8,9 +8,6 @@ int main()
 {
     logger::init("log.log", logger::info);
 
-
-    boost::log::sources::logger_mt lg;
-    boost::log::sources::logger_mt lg2;
     boost::log::sources::severity_logger_mt<logger::severity_level> lg3;
 
     BOOST_LOG(lg) << "In log";
