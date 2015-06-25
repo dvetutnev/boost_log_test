@@ -24,6 +24,8 @@
 using namespace boost::log;
 
 BOOST_LOG_ATTRIBUTE_KEYWORD(timestamp, "TimeStamp", boost::posix_time::ptime)
+BOOST_LOG_ATTRIBUTE_KEYWORD(severity, "Severity", logger::severity_level)
+
 /*
 BOOST_LOG_GLOBAL_LOGGER_INIT(logger::lgr, sources::severity_logger_mt<logger::severity_level>)
 {
@@ -33,27 +35,36 @@ BOOST_LOG_GLOBAL_LOGGER_INIT(logger::lgr, sources::severity_logger_mt<logger::se
     sources::severity_logger_mt<logger::severity_level> lg;
 
     //lg.add_attribute("RecordID", attributes::counter<unsigned int>(1));
-    lg.add_attribute("TimeStamp", attributes::local_clock());
+    //lg.add_attribute("TimeStamp", attributes::local_clock());
     //lg.add_attribute("Scope", attributes::named_scope());
+    logger::init();
 
     return lg;
 }
 */
-void logger::init()
+
+void logger::init(std::string filename, severity_level level)
 {
-    //core::get()->add_global_attribute("TimeStamp", attributes::local_clock());
+    // удаляем старую конфигурацию
+    core::get()->reset_filter();
+    core::get()->remove_all_sinks();
+    // включаем метку времени
+    core::get()->add_global_attribute("TimeStamp", attributes::local_clock());
+    // фильтр уровня лога
+    core::get()->set_filter(severity >= level);
 
     typedef sinks::synchronous_sink<sinks::text_ostream_backend> text_sink_t;
 
     // file log
     boost::shared_ptr<text_sink_t> file_sink = boost::make_shared<text_sink_t>();
-    boost::shared_ptr<std::ofstream> file_stream(new std::ofstream("log.txt"));
+    boost::shared_ptr<std::ofstream> file_stream(new std::ofstream(filename, std::ofstream::out | std::ofstream::app)); // файл лога, новые записи добавляются в конец
     file_sink->locked_backend()->add_stream(file_stream);
     file_sink->locked_backend()->auto_flush();
+    file_sink->set_formatter(expressions::stream // формат
+                                << "[" << expressions::format_date_time(timestamp, "%Y-%m-%d %H:%M:%S.%f") << "]" // метка времени
+                                << severity // уровень лога, оператор << перегружен в logger.h
+                                << ": " << expressions::smessage);
     core::get()->add_sink(file_sink);
-
-    //core::get()->
-
 
     // console log
     boost::shared_ptr<text_sink_t> console_sink = boost::make_shared<text_sink_t>();
@@ -61,11 +72,9 @@ void logger::init()
     console_sink->locked_backend()->add_stream(console_stream);
     console_sink->locked_backend()->auto_flush();
     console_sink->set_formatter(expressions::stream
-                                << "[" << expressions::format_date_time(timestamp, "%Y-%m-%d %H:%M:%S.%f") << "]"
+                                //<< "[" << expressions::format_date_time(timestamp, "%Y-%m-%d %H:%M:%S.%f") << "]"
+                                << severity
                                 << ": " << expressions::smessage);
     core::get()->add_sink(console_sink);
-//expressions::format_date_time
-
-    //
 }
 

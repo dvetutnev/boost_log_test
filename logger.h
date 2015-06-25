@@ -8,10 +8,10 @@
 #include <boost/log/common.hpp>
 #include <boost/log/sources/logger.hpp>
 #include <boost/log/attributes.hpp>
-//#include <boost/log/sources/global_logger_storage.hpp>
 
 namespace logger
 {
+    // уровни лога
     enum severity_level
     {
         trace,
@@ -22,17 +22,18 @@ namespace logger
         critical
     };
 
+    // перегруженый оператор для вывода уровня лога
     template<typename CharT, typename TraitsT>
     inline std::basic_ostream<CharT, TraitsT>& operator << (std::basic_ostream<CharT, TraitsT>& strm, severity_level level)
     {
         static const char* const str[] =
         {
-            "trace",
-            "debug",
-            "info",
-            "warning",
-            "error",
-            "critical"
+            "[trace]",
+            "[debug]",
+            "[info]",
+            "[warning]",
+            "[error]",
+            "[critical]"
         };
 
         if (static_cast<std::size_t>(level) < (sizeof(str) / sizeof(*str)))
@@ -42,17 +43,19 @@ namespace logger
         return strm;
     }
 
-    void init();
+    // инициализация
+    void init(std::string filename = "log.txt", severity_level level = info);
 /*
+    // глобальный логгер, с мутексом и уровнями
     BOOST_LOG_GLOBAL_LOGGER(lgr, boost::log::sources::severity_logger_mt<severity_level>)
-
-    #define logtrace    BOOST_LOG_SEV(logger::lgt::get(), trace)
-    #define logdebug    BOOST_LOG_SEV(lgr::get(), debug)
-    #define loginfo     BOOST_LOG_SEV(lgr::get(), info)
-    #define logwarning  BOOST_LOG_SEV(lgr::get(), warning)
+    // дефайны для быстрого доступа
+    #define logtrace    BOOST_LOG_SEV(logger::lgr::get(), logger::trace)
+    #define logdebug    BOOST_LOG_SEV(logger::lgr::get(), logger::debug)
+    #define loginfo     BOOST_LOG_SEV(logger::lgr::get(), logger::info)
+    #define logwarning  BOOST_LOG_SEV(logger::lgr::get(), logger::warning)
     #define logerror    BOOST_LOG_SEV(logger::lgr::get(), logger::error)
-    #define logcritical BOOST_LOG_SEV(lgr::get(), critical)
-    */
+    #define logcritical BOOST_LOG_SEV(logger::lgr::get(), logger::critical)
+*/
 }
 
 #endif // LOGGER_H
