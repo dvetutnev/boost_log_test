@@ -1,11 +1,12 @@
 #include <iostream>
 
 #include "logger.h"
+#include "tt.h"
 
 
 int main()
 {
-    //logger::init();
+    logger::init();
 
     //logger::init(logger::trace);
 
@@ -16,7 +17,9 @@ int main()
     BOOST_LOG(lg2) << "In log2";
     //boost::log::sources::logger_mt.
 
-    logerror << "EEEEE";
+    //logerror << "EEEEE";
+
+    //auto ptt = new tt();
 
     std::cout << "Hello World!" << std::endl;
     return 0;
