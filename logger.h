@@ -6,7 +6,7 @@
 
 // boost log
 #include <boost/log/common.hpp>
-#include <boost/log/sources/logger.hpp>
+#include <boost/log/sources/severity_logger.hpp>
 #include <boost/log/attributes.hpp>
 
 namespace logger
@@ -45,7 +45,6 @@ namespace logger
 
     // инициализация
     void init(std::string filename = "log.txt", severity_level level = info);
-/*
     // глобальный логгер, с мутексом и уровнями
     BOOST_LOG_GLOBAL_LOGGER(lgr, boost::log::sources::severity_logger_mt<severity_level>)
     // дефайны для быстрого доступа
@@ -55,7 +54,6 @@ namespace logger
     #define logwarning  BOOST_LOG_SEV(logger::lgr::get(), logger::warning)
     #define logerror    BOOST_LOG_SEV(logger::lgr::get(), logger::error)
     #define logcritical BOOST_LOG_SEV(logger::lgr::get(), logger::critical)
-*/
 }
 
 #endif // LOGGER_H

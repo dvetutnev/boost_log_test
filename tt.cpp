@@ -3,6 +3,6 @@
 
 tt::tt()
 {
-    //logerror << "ttt";
+    logerror << "ttt";
 }
 

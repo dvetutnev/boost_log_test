@@ -10,8 +10,11 @@
 #include <boost/log/common.hpp>
 #include <boost/log/core.hpp>
 #include <boost/log/expressions.hpp>
-#include <boost/log/sinks.hpp>
-#include <boost/log/sources/logger.hpp>
+//#include <boost/log/sinks.hpp>
+#include <boost/log/sinks/sync_frontend.hpp>
+#include <boost/log/sinks/text_ostream_backend.hpp>
+//#include <boost/log/sources/logger.hpp>
+#include <boost/log/sources/severity_logger.hpp>
 #include <boost/log/sources/global_logger_storage.hpp>
 #include <boost/log/support/date_time.hpp>
 
@@ -26,22 +29,11 @@ using namespace boost::log;
 BOOST_LOG_ATTRIBUTE_KEYWORD(timestamp, "TimeStamp", boost::posix_time::ptime)
 BOOST_LOG_ATTRIBUTE_KEYWORD(severity, "Severity", logger::severity_level)
 
-/*
 BOOST_LOG_GLOBAL_LOGGER_INIT(logger::lgr, sources::severity_logger_mt<logger::severity_level>)
 {
-    core::get()->reset_filter();
-    core::get()->remove_all_sinks();
-
     sources::severity_logger_mt<logger::severity_level> lg;
-
-    //lg.add_attribute("RecordID", attributes::counter<unsigned int>(1));
-    //lg.add_attribute("TimeStamp", attributes::local_clock());
-    //lg.add_attribute("Scope", attributes::named_scope());
-    logger::init();
-
     return lg;
 }
-*/
 
 void logger::init(std::string filename, severity_level level)
 {
