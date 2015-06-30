@@ -5,9 +5,9 @@
 #include <iostream>
 
 // boost log
-#include <boost/log/common.hpp>
+#include <boost/log/sources/record_ostream.hpp>
+#include <boost/log/sources/global_logger_storage.hpp>
 #include <boost/log/sources/severity_logger.hpp>
-#include <boost/log/attributes.hpp>
 
 namespace logger
 {
