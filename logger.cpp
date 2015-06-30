@@ -4,6 +4,7 @@
 // std
 #include <iostream>
 #include <fstream>
+#include <exception>
 
 // boost log
 //Attributes
@@ -12,14 +13,16 @@
 #include <boost/log/expressions/formatters/stream.hpp>
 #include <boost/log/expressions/formatters/date_time.hpp>
 #include <boost/phoenix/operator.hpp>
+//Support
+#include <boost/log/support/date_time.hpp>
 //Sinks
 #include <boost/log/sinks/sync_frontend.hpp>
 #include <boost/log/sinks/text_ostream_backend.hpp>
 //Sources
 #include <boost/log/sources/severity_logger.hpp>
 #include <boost/log/sources/global_logger_storage.hpp>
-//Support
-#include <boost/log/support/date_time.hpp>
+//Exception
+#include <boost/log/utility/exception_handler.hpp>
 
 // boost other
 #include <boost/smart_ptr/shared_ptr.hpp>
@@ -71,5 +74,20 @@ void logger::init(std::string filename, severity_level level)
                                 << severity
                                 << ": " << expressions::smessage);
     core::get()->add_sink(console_sink);
+
+    // exception
+    struct handler
+    {
+      void operator()(const runtime_error &ex) const
+      {
+        std::cerr << "[logger] boost::log::runtime_error: " << ex.what() << '\n';
+      }
+
+      void operator()(const std::exception &ex) const
+      {
+        std::cerr << "[logger] std::exception: " << ex.what() << '\n';
+      }
+    };
+    core::get()->set_exception_handler(make_exception_handler<runtime_error, std::exception>(handler{}));
 }
 
