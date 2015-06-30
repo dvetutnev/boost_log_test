@@ -6,16 +6,19 @@
 #include <fstream>
 
 // boost log
-#include <boost/log/attributes.hpp>
-#include <boost/log/common.hpp>
-#include <boost/log/core.hpp>
-#include <boost/log/expressions.hpp>
-//#include <boost/log/sinks.hpp>
+//Attributes
+#include <boost/log/attributes/clock.hpp>
+//Expressions
+#include <boost/log/expressions/formatters/stream.hpp>
+#include <boost/log/expressions/formatters/date_time.hpp>
+#include <boost/phoenix/operator.hpp>
+//Sinks
 #include <boost/log/sinks/sync_frontend.hpp>
 #include <boost/log/sinks/text_ostream_backend.hpp>
-//#include <boost/log/sources/logger.hpp>
+//Sources
 #include <boost/log/sources/severity_logger.hpp>
 #include <boost/log/sources/global_logger_storage.hpp>
+//Support
 #include <boost/log/support/date_time.hpp>
 
 // boost other

@@ -1,7 +1,7 @@
 #include <iostream>
 
 #include "logger.h"
-#include "tt.h"
+//#include "tt.h"
 
 
 int main()
@@ -30,7 +30,7 @@ int main()
     logcritical << "critical";
 
 
-    auto ptt = new tt();
+  //  auto ptt = new tt();
     std::cout << "Hello World!" << std::endl;
     return 0;
 }
